@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arduino Project</title>
+    <style>
+        * {
+            color: white;
+            background: black;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+
+        ol {
+            list-style-type: decimal;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+
+        code {
+            font-family: Consolas, monospace;
+            background-color: #343131;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        pre {
+            font-family: Consolas, monospace;
+            background-color: #343131;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Dokumentace kódu</h1>
+
+<p>Tento kód implementuje jednoduchý program pro monitorování spouštění infračerveného (IR) senzoru. Kód je napsán v
+    jazyce Arduino.</p>
+
+<h2>Přehled funkcionality:</h2>
+<ul>
+    <li>Program sleduje počet spouštění IR senzoru a vypisuje ho do sériového monitoru.</li>
+    <li>Při každém spuštění IR senzoru je zaznamenán čas spuštění.</li>
+    <li>Mezi spouštěními je nastavena minimální prodleva, aby se zabránilo opakovaným spouštěním způsobeným šumem nebo
+        opakovaným signálem.
+    </li>
+</ul>
+
+<h2>Použité piny:</h2>
+<p>IR senzor je připojen k pinu číslo 3 na Arduino desce.</p>
+
+<h2>Proměnné a konstanty:</h2>
+<ul>
+    <li><code>IR_SENSOR_PIN</code>: Konstanta definující číslo pinu, ke kterému je připojen IR senzor.</li>
+    <li><code>pocetSpousteni</code>: Proměnná pro uchování počtu spouštění IR senzoru.</li>
+    <li><code>casPoslednihoSpusteni</code>: Proměnná pro uchování času posledního spuštění IR senzoru.</li>
+    <li><code>prodlevaMeziSpustenimi</code>: Proměnná určující minimální čas mezi spouštěními.</li>
+</ul>
+
+<h2>Funkce:</h2>
+<ul>
+    <li><code>setup()</code>: Funkce, která se spustí při inicializaci programu. Nastavuje sériovou komunikaci,
+        konfiguruje pin IR senzoru, zapíná interní pull-up rezistor a připojuje přerušení k pinu IR senzoru.
+    </li>
+    <li><code>loop()</code>: Hlavní smyčka programu, která se opakuje neustále. Vypisuje počet spouštění do sériového
+        monitoru a má prodlevu 1 sekundu.
+    </li>
+    <li><code>countTrigger()</code>: Funkce volaná při spuštění přerušení. Zaznamenává čas spuštění a zvyšuje počet
+        spouštění, pokud uplynula dostatečná prodleva od posledního spuštění.
+    </li>
+</ul>
+
+<h2>Kód:</h2>
+<pre><code>// Definujte pin, ke kterému je připojen IR senzor
+#define IR_SENSOR_PIN 3
+
+// Proměnná pro uchování počtu spouštění
+volatile int pocetSpousteni = 0;
+
+// Proměnná pro uchování času posledního spuštění
+volatile unsigned long casPoslednihoSpusteni = 0;
+
+// Minimální čas mezi spouštěními (v milisekundách)
+unsigned long prodlevaMeziSpustenimi = 1000;
+
+void setup() {
+  // Spustit sériovou komunikaci
+  Serial.begin(9600);
+
+  // Nastavit pin IR senzoru jako vstup
+  pinMode(IR_SENSOR_PIN, INPUT);
+
+  // Zapnout interní pull-up rezistor
+  digitalWrite(IR_SENSOR_PIN, HIGH);
+
+  // Připojit přerušení k pinu IR senzoru
+  // Spustí funkci countTrigger při vzestupné hraně (přechod z LOW na HIGH)
+  attachInterrupt(digitalPinToInterrupt(IR_SENSOR_PIN), countTrigger, RISING);
+}
+
+void loop() {
+  // Vytisknout počet spouštění do sériového monitoru
+  Serial.println(pocetSpousteni);
+
+  // Přidat prodlevu pro zabránění zahlcení sériového monitoru
+  delay(1000);
+}
+
+// Tato funkce je volána vždy, když je přerušení spuštěno
+void countTrigger() {
+  // Získat aktuální čas
+  unsigned long nyni = millis();
+
+  // Pokud uplynula dostatečná doba od posledního spuštění, zvýšit počet
+  if (nyni - casPoslednihoSpusteni > prodlevaMeziSpustenimi) {
+    pocetSpousteni++;
+    casPoslednihoSpusteni = nyni;
+  }
+}</code></pre>
+
+<h2>Postup:</h2>
+<ol>
+    <li>Připojte IR senzor k pinu číslo 3 na Arduino desce.</li>
+    <li>Nahrajte kód do Arduino desky.</li>
+    <li>Otevřete sériový monitor v Arduino IDE.</li>
+    <li>Budete vidět počet spouštění IR senzoru, který se bude aktualizovat s každým spuštěním.</li>
+</ol>
+
+<p><strong>Poznámka:</strong> Ujistěte se, že používáte správnou rychlost sériové komunikace (baud rate), která je
+    nastavena na 9600 v kódu (<code>Serial.begin(9600)</code>).</p>
+</body>
+</html>
