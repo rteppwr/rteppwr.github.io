@@ -2,164 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Arduino Project</title>
+    <title>TrueNAS Server pro malou firmu</title>
     <style>
-        * {
-            color: white;
-            background: black;
-        }
-
         body {
+            background-color: black;
+            color: white;
             font-family: Arial, sans-serif;
-            margin: 20px;
         }
 
-        p {
-            margin-bottom: 10px;
+        h1, h2 {
+            color: orange;
+            border-bottom: 2px solid orange;
+            padding-bottom: 5px;
+        }
+
+        .container {
+            display: flex; /* Použití flexboxu pro umístění dětí vedle sebe */
+        }
+
+        .svg-container1,
+        .svg-container2 {
+            width: 45%;
+            background-color: #888;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin-right: 5%;
+            text-align: center; /* Centrování obsahu */
+        }
+
+        .svg-container1 img,
+        .svg-container2 img {
+            max-width: 100%;
+            margin: 0 auto; /* Vycentrování obrázku v kontejneru */
+        }
+
+        .feature, .release-notes {
+            color: orange;
+            margin-top: 20px;
+            border-bottom: 2px solid orange;
+            padding-bottom: 5px;
         }
 
         ul {
-            list-style-type: disc;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
             margin-bottom: 10px;
-            margin-left: 20px;
         }
 
-        ol {
-            list-style-type: decimal;
-            margin-bottom: 10px;
-            margin-left: 20px;
-        }
-
-        code {
-            font-family: Consolas, monospace;
-            background-color: #343131;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        pre {
-            font-family: Consolas, monospace;
-            background-color: #343131;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-
-        strong {
-            font-weight: bold;
-        }
-
-        img {
-            height: 40%;
-            width: 40%;
-        }
-
-        a {
-            font-size: 125%;
+        .download-link a {
+            background-color: orange;
+            color: black;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-<h1>Dokumentace kódu</h1>
+<h1>TrueNAS Server pro malou firmu</h1>
 
-<p>Tento kód implementuje jednoduchý program pro monitorování spouštění infračerveného (IR) senzoru. Kód je napsán v
-    jazyce Arduino.</p>
+<h2>Elevator Pitch</h2>
+<p>Potřebujete spolehlivé úložiště dat pro vaši firmu, které vám umožní efektivně spravovat a chránit vaše důležité informace? TrueNAS je ideálním řešením pro vás. S kapacitou 6 x 2TB, nebo jinou? A funkcemi jako GPU Encoding a správa dat pro skupiny i jednotlivce? S námi a TrueNAS vám poskytneme robustní a flexibilní infrastrukturu pro vaše podnikání. Přeneste své úložiště do dalšího levelu s naší pomocí a TrueNAS.</p>
 
-<h2>Přehled funkcionality:</h2>
+<h2>Popis produktu</h2>
+<p>Náš produkt je malý Network Attached Storage (NAS) systém postavený na platformě TrueNAS. Vznikl jako odpověď na rostoucí potřeby malých firem po spolehlivém a efektivním úložišti dat. Slouží k centralizovanému ukládání, správě a zabezpečení firemních dat, což přispívá k zvýšení produktivity a ochraně informací.</p>
+
+<h2>Architektura</h2>
+<p>RAID 6 je forma redundantního pole nezávislých disků, která umožňuje ochranu dat proti výpadku dvou disků současně. V tomto uspořádání se data rozdělují a paritní bloky jsou distribuovány přes všechny disky. Tím je zajištěna schopnost obnovit data v případě selhání dvou disků.</p>
+<div class="container">
+    <div class="svg-container1">
+        <img src="img/TrueNASDiagram.svg">
+    </div>
+
+    <div class="svg-container2">
+        <img src="img/RAID6Diragram.svg">
+    </div>
+</div>
+
+<h2 class="feature">Funkce produktu (Features)</h2>
 <ul>
-    <li>Program sleduje počet spouštění IR senzoru a vypisuje ho do sériového monitoru.</li>
-    <li>Při každém spuštění IR senzoru je zaznamenán čas spuštění.</li>
-    <li>Mezi spouštěními je nastavena minimální prodleva, aby se zabránilo opakovaným spouštěním způsobeným šumem nebo
-        opakovaným signálem.
-    </li>
+    <li><strong>GPU Video Processing:</strong> Tato funkce umožňuje využití grafického procesoru (GPU) pro urychlení zpracování videa v aplikacích jako Adobe Premiere Pro na našem NAS serveru.</li>
+    <li><strong>Přímé Ukládání a Editace na Timeline:</strong> Tato funkce umožňuje uživatelům přímo ukládat data na NAS server a okamžitě je editovat přímo na časové ose (timeline) ve spojení s aplikacemi pro editaci videa jako Adobe Premiere Pro nebo DaVinci Resolve.</li>
+    <li><strong>Správa Dat pro Skupiny a Jednotlivce:</strong> Tato funkce umožňuje efektivní správu dat pro skupiny uživatelů i jednotlivce na NAS serveru. Každá skupina má své vlastní oddělené úložiště pro kolektivní projekty a sdílené soubory, zatímco každý jednotlivec má přístup k vlastnímu prostoru pro osobní soubory a projekty.</li>
 </ul>
 
-<h2>Použité piny:</h2>
-<p>IR senzor je připojen k pinu číslo 3 na Arduino desce.</p>
-
-<h2>Proměnné a konstanty:</h2>
+<h2 class="release-notes">Release notes</h2>
+<p>1.1 Verze: Přidána podpora pro GPU akceleraci kódování videa</p>
 <ul>
-    <li><code>IR_SENSOR_PIN</code>: Konstanta definující číslo pinu, ke kterému je připojen IR senzor.</li>
-    <li><code>pocetSpousteni</code>: Proměnná pro uchování počtu spouštění IR senzoru.</li>
-    <li><code>casPoslednihoSpusteni</code>: Proměnná pro uchování času posledního spuštění IR senzoru.</li>
-    <li><code>prodlevaMeziSpustenimi</code>: Proměnná určující minimální čas mezi spouštěními.</li>
+    <li>Do serveru byla zakomponována grafická karta, upraveny testovací scénáře</li>
 </ul>
 
-<h2>Funkce:</h2>
-<ul>
-    <li><code>setup()</code>: Funkce, která se spustí při inicializaci programu. Nastavuje sériovou komunikaci,
-        konfiguruje pin IR senzoru, zapíná interní pull-up rezistor a připojuje přerušení k pinu IR senzoru.
-    </li>
-    <li><code>loop()</code>: Hlavní smyčka programu, která se opakuje neustále. Vypisuje počet spouštění do sériového
-        monitoru a má prodlevu 1 sekundu.
-    </li>
-    <li><code>countTrigger()</code>: Funkce volaná při spuštění přerušení. Zaznamenává čas spuštění a zvyšuje počet
-        spouštění, pokud uplynula dostatečná prodleva od posledního spuštění.
-    </li>
-</ul>
-
-<h2>Kód:</h2>
-<pre><code>// Definujte pin, ke kterému je připojen IR senzor
-#define IR_SENSOR_PIN 3
-
-// Proměnná pro uchování počtu spouštění
-volatile int pocetSpousteni = 0;
-
-// Proměnná pro uchování času posledního spuštění
-volatile unsigned long casPoslednihoSpusteni = 0;
-
-// Minimální čas mezi spouštěními (v milisekundách)
-unsigned long prodlevaMeziSpustenimi = 1000;
-
-void setup() {
-  // Spustit sériovou komunikaci
-  Serial.begin(9600);
-
-  // Nastavit pin IR senzoru jako vstup
-  pinMode(IR_SENSOR_PIN, INPUT);
-
-  // Zapnout interní pull-up rezistor
-  digitalWrite(IR_SENSOR_PIN, HIGH);
-
-  // Připojit přerušení k pinu IR senzoru
-  // Spustí funkci countTrigger při vzestupné hraně (přechod z LOW na HIGH)
-  attachInterrupt(digitalPinToInterrupt(IR_SENSOR_PIN), countTrigger, RISING);
-}
-
-void loop() {
-  // Vytisknout počet spouštění do sériového monitoru
-  Serial.println(pocetSpousteni);
-
-  // Přidat prodlevu pro zabránění zahlcení sériového monitoru
-  delay(1000);
-}
-
-// Tato funkce je volána vždy, když je přerušení spuštěno
-void countTrigger() {
-  // Získat aktuální čas
-  unsigned long nyni = millis();
-
-  // Pokud uplynula dostatečná doba od posledního spuštění, zvýšit počet
-  if (nyni - casPoslednihoSpusteni > prodlevaMeziSpustenimi) {
-    pocetSpousteni++;
-    casPoslednihoSpusteni = nyni;
-  }
-}</code></pre>
-
-<h2>Postup:</h2>
-<ol>
-    <li>Připojte IR senzor k pinu číslo 3 na Arduino desce.</li>
-    <li>Nahrajte kód do Arduino desky.</li>
-    <li>Otevřete sériový monitor v Arduino IDE.</li>
-    <li>Budete vidět počet spouštění IR senzoru, který se bude aktualizovat s každým spuštěním.</li>
-</ol>
-
-<p><strong>Poznámka:</strong> Ujistěte se, že používáte správnou rychlost sériové komunikace (baud rate), která je
-    nastavena na 9600 v kódu (<code>Serial.begin(9600)</code>).</p>
-<img src="img/20230616_092141.jpg">
-<img src="img/20230616_092231.jpg">
-<br>
-<br>
-<a href="Prášek_plakát.docx" download>Stáhnout plakát</a>
 </body>
 </html>
